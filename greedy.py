@@ -1,31 +1,35 @@
-class Job:
-    def __init__(self, name, deadline, profit):
-        self.name = name
-        self.deadline = deadline
-        self.profit = profit
+jobs = { 'j1': [10, 1], 'j2': [5, 3], 'j3': [20, 2], 'j4': [1, 3], 'j5': [15, 2] }
 
-def job_sequencing(jobs):
-    jobs = sorted(jobs, key=lambda x: x.profit, reverse=True)
-    n = len(jobs)
-    slots = [False] * n
-    total_profit = 0
+deadline = [0]*len(jobs.keys())
+i = 0
+for job in jobs:
+    deadline[i] = jobs[job][1]
+    i+=1
+print(deadline)
 
-    for i in range(n):
-        for j in range(min(n, jobs[i].deadline) - 1, -1, -1):
-            if not slots[j]:
-                slots[j] = True
-                total_profit += jobs[i].profit
-                break
+size = max(deadline)
 
-    return total_profit
+schedule = [0]*size
+max_profit = 0
 
-# Example usage
-jobs = [
-    Job("J1", 2, 60),
-    Job("J2", 1, 100),
-    Job("J3", 3, 20),
-    Job("J4", 2, 40),
-    Job("J5", 1, 20)
-]
+jobs = dict(sorted(jobs.items(), key=lambda x:x[1], reverse=True))
 
-print("Maximum profit:", job_sequencing(jobs)) # Output: Maximum profit: 220
+for job in jobs:
+    if size != 0:
+        if schedule[jobs[job][1] - 1]==0:
+            schedule[jobs[job][1] - 1] = job
+            max_profit += jobs[job][0]
+            size -= 1
+        else:
+            length = jobs[job][1] - 2
+            while length != -1:
+                if schedule[length]==0:
+                    schedule[length] = job
+                    max_profit += jobs[job][0]
+                    size -= 1
+                    break
+                length -= 1
+
+print(schedule)
+print(max_profit)
+
