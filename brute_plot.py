@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import random
 import timeit
+import itertools
 
 # To generate random value for input
 
@@ -10,43 +11,59 @@ def generate_random_values():
     return value
 
 
+def calculate_profit(schedule, l):
+    size = l
+    max_profit = 0
+    current_time = []
+    best_schedule = [0]*size
+
+    for job in schedule:
+        profit, deadline = jobs[job]
+        # Check if deadline has already been checked
+        # If not, add it to schedule and collect profit
+        if deadline not in current_time:
+            max_profit += profit
+            best_schedule[deadline-1] = job
+            current_time.append(deadline)
+        # If yes, keep going back in the schedule to fit the job and collect profit
+        else:
+            deadline2 = deadline - 1
+            while deadline2 != 0:
+                if deadline2 in current_time:
+                    deadline2 -= 1
+                else:
+                    max_profit += profit
+                    best_schedule[deadline2-1] = job
+                    current_time.append(deadline2)
+                    break
+    return max_profit, best_schedule
+
+
 def job_scheduling_brute_force(jobs):
-    # Store deadlines in an array and find max deadline
-    deadline = [0] * len(jobs.keys())
+    # Create array deadline and store each job's deadline in this array
+    deadline = [0]*len(jobs.keys())
     i = 0
     for job in jobs:
         deadline[i] = jobs[job][1]
         i += 1
 
-    # Initialize size of our schedule to max value of deadline
+    # Store max value of deadline and assign size of schedule to this
     size = max(deadline)
-    schedule = [0] * size
+
+    # Generate all permutations of the job names
+    job_names = list(jobs.keys())
+    permutations = list(itertools.permutations(job_names, size))
     max_profit = 0
+    best_schedule = []
 
-    # Sort the jobs in decreasing order of profit
-    jobs = dict(sorted(jobs.items(), key=lambda x: x[1], reverse=True))
-
-    # Iterate over each job
-    for job in jobs:
-        # Check if schedule is full
-        if size != 0:
-            # If deadline spot empty, assign job to that spot
-            if schedule[jobs[job][1] - 1] == 0:
-                schedule[jobs[job][1] - 1] = job
-                max_profit += jobs[job][0]
-                size -= 1
-            # Otherwise, keep going back in schedule until you find empty spot
-            else:
-                length = jobs[job][1] - 2
-                while length != -1:
-                    if schedule[length] == 0:
-                        schedule[length] = job
-                        max_profit += jobs[job][0]
-                        size -= 1
-                        break
-                    length -= 1
-
-    return max_profit
+    # Iterate over all permutations and calculate the profit for each schedule
+    for permutation in permutations:
+        profit, schedule = calculate_profit(permutation, size)
+        # If profit is greater than max_profit, store it as max_profit and save the corresponding schedule
+        if profit > max_profit:
+            max_profit = profit
+            best_schedule = schedule
+    return best_schedule, max_profit
 
 
 def analyze_performance_best(jobs_best_list, input_range):
@@ -126,7 +143,7 @@ def analyze_performance_average(jobs_average_list, input_range):
 if __name__ == "__main__":
 
     # Declaring input range
-    input_range = range(1, 1000)
+    input_range = range(1, 100, 10)
 
     # Create input array of jobs
     jobs_best_list = []

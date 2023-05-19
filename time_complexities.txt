@@ -35,14 +35,14 @@ However, the actual time taken will vary based on the specific job input and the
 
 Here is a more detailed explanation of the time complexities of the algorithm for the best case, average case, and worst case:
 
-(1) Best case: In the best case, the jobs are sorted in descending order of profit and their deadlines are in ascending order.
+(1) Best case: O(n) - In the best case, the jobs are sorted in descending order of profit and their deadlines are in ascending order.
 This means that the algorithm will be able to assign the most profitable jobs to the earliest deadlines.
 As a result, the maximum profit will be achieved and the algorithm will only need to iterate through the jobs once, resulting in a time complexity of O(n).
 
-(2) Average case: In the average case, the jobs are randomly sorted. This means that the algorithm will not be able to achieve the maximum profit,
+(2) Average case: O(n log n) - In the average case, the jobs are randomly sorted. This means that the algorithm will not be able to achieve the maximum profit,
 but it will still be able to achieve a high profit. The exact profit that the algorithm will achieve will depend on the random order of the jobs.
 The algorithm will need to iterate through the jobs multiple times to find the best possible schedule, resulting in a time complexity of O(n log n).
 
-(3) Worst case: In the worst case, the jobs are sorted in ascending order of profit and their deadlines are in descending order.
+(3) Worst case: O(n^2) - In the worst case, the jobs are sorted in ascending order of profit and their deadlines are in descending order.
 This means that the algorithm will not be able to assign any of the jobs to the schedule.
 As a result, the maximum profit will not be achieved and the algorithm will need to iterate through the jobs n times, resulting in a time complexity of O(n^2).

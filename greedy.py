@@ -28,7 +28,7 @@ def job_scheduling_greedy(jobs):
 
     # Iterate over each job
     for job in jobs:
-        # Check if schedule is full
+        # Check if schedule is empty
         if size != 0:
             # If deadline spot empty, assign job to that spot
             if schedule[jobs[job][1] - 1] == 0:
