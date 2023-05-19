@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import random
-
+import timeit
 # To generate random value for input
 
 
@@ -42,11 +42,63 @@ def job_sequencing_performance(jobs):
     return max_profit
 
 
-def analyze_performance():
+def analyze_performance_best():
 
     input_sizes = []
     best_case_times = []
+
+    # Declaring input range
+    input_range = range(1, 1000)
+
+    # Create input array of jobs
+    for size in input_range:
+        jobs = {f'j{i+1}': [generate_random_values(), generate_random_values()]
+                for i in range(size)}
+
+        input_sizes.append(size)
+
+        # Start timer
+        start_time = timeit.default_timer()
+        # Run greedy algorithm
+        result = job_sequencing_performance(jobs)
+        # End timer
+        end_time = timeit.default_timer()
+        # Calculate execution time
+        execution_time = end_time - start_time
+        best_case_times.append(execution_time)
+    return input_sizes, best_case_times
+
+
+def analyze_performance_worst():
+
+    input_sizes = []
     worst_case_times = []
+
+    # Declaring input range
+    input_range = range(1, 1000)
+
+    # Create input array of jobs
+    for size in input_range:
+        jobs = {f'j{i+1}': [generate_random_values(), generate_random_values()]
+                for i in range(size)}
+
+        input_sizes.append(size)
+
+        # Start timer
+        start_time = timeit.default_timer()
+        # Run greedy algorithm
+        result = job_sequencing_performance(jobs)
+        # End timer
+        end_time = timeit.default_timer()
+        # Calculate execution time
+        execution_time = end_time - start_time
+        worst_case_times.append(execution_time)
+    return input_sizes, worst_case_times
+
+
+def analyze_performance_average():
+
+    input_sizes = []
     average_case_times = []
 
     # Declaring input range
@@ -59,24 +111,26 @@ def analyze_performance():
 
         input_sizes.append(size)
 
-        best_case_time = float('inf')
-        worst_case_time = float('-inf')
-        average_case_time = 0
-
+        # Start timer
+        start_time = timeit.default_timer()
+        # Run greedy algorithm
         result = job_sequencing_performance(jobs)
-        best_case_time = min(best_case_time, result)
-        worst_case_time = max(worst_case_time, result)
-        average_case_time += result
+        # End timer
+        end_time = timeit.default_timer()
+        # Calculate execution time
+        execution_time = end_time - start_time
+        average_case_times.append(execution_time)
+    return input_sizes, average_case_times
 
-        average_case_time /= size
 
-        best_case_times.append(best_case_time)
-        worst_case_times.append(worst_case_time)
-        average_case_times.append(average_case_time)
+if __name__ == "__main__":
 
-    plt.plot(input_sizes, best_case_times, label='Best Case')
-    plt.plot(input_sizes, worst_case_times, label='Worst Case')
-    plt.plot(input_sizes, average_case_times, label='Average Case')
+    input_sizes_best, best_case_times = analyze_performance_best()
+    input_sizes_worst, worst_case_times = analyze_performance_worst()
+    input_sizes_average, average_case_times = analyze_performance_average()
+    plt.plot(input_sizes_best, best_case_times, label='Best Case')
+    plt.plot(input_sizes_worst, worst_case_times, label='Worst Case')
+    plt.plot(input_sizes_average, average_case_times, label='Average Case')
 
     plt.xlabel('Input Size')
     plt.ylabel('Running Time')
@@ -85,8 +139,3 @@ def analyze_performance():
 
     plt.legend()
     plt.show()
-
-
-if __name__ == "__main__":
-
-    analyze_performance()
