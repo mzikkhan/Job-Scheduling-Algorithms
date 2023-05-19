@@ -10,7 +10,7 @@ def generate_random_values():
     return value
 
 
-def job_scheduling_brute_force(jobs):
+def job_scheduling_dynamic_programming(jobs):
     # Store deadlines in an array and find max deadline
     deadline = [0] * len(jobs.keys())
     i = 0
@@ -63,8 +63,8 @@ def analyze_performance_best(jobs_best_list, input_range):
 
         # Start timer
         start_time = timeit.default_timer()
-        # Run brute force algorithm
-        result = job_scheduling_brute_force(jobs)
+        # Run dynamic programming algorithm
+        result = job_scheduling_dynamic_programming(jobs)
         # End timer
         end_time = timeit.default_timer()
         # Calculate execution time
@@ -87,8 +87,8 @@ def analyze_performance_worst(jobs_worst_list, input_range):
 
         # Start timer
         start_time = timeit.default_timer()
-        # Run brute force algorithm
-        result = job_scheduling_brute_force(jobs)
+        # Run dynamic programming algorithm
+        result = job_scheduling_dynamic_programming(jobs)
         # End timer
         end_time = timeit.default_timer()
         # Calculate execution time
@@ -112,8 +112,8 @@ def analyze_performance_average(jobs_average_list, input_range):
 
         # Start timer
         start_time = timeit.default_timer()
-        # Run brute force algorithm
-        result = job_scheduling_brute_force(jobs)
+        # Run dynamic programming algorithm
+        result = job_scheduling_dynamic_programming(jobs)
         # End timer
         end_time = timeit.default_timer()
         # Calculate execution time
@@ -158,6 +158,6 @@ if __name__ == "__main__":
     plt.plot(input_sizes_average, average_case_times, label='Average Case')
     plt.xlabel('Input Size')
     plt.ylabel('Running Time')
-    plt.title('Job Scheduling - Brute Force')
+    plt.title('Job Scheduling - Dynamic Programming')
     plt.legend()
     plt.show()

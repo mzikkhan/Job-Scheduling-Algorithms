@@ -128,7 +128,7 @@ def analyze_performance_average(jobs_average_list, input_range):
 if __name__ == "__main__":
 
     # Declaring input range
-    input_range = range(1, 1000)
+    input_range = range(1, 10000, 1000)
 
     # Create input array of jobs
     jobs_best_list = []
@@ -156,8 +156,8 @@ if __name__ == "__main__":
     input_sizes_average, average_case_times = analyze_performance_average(
         jobs_average_list, input_range)
     plt.plot(input_sizes_best, best_case_times, label='Best Case')
-    plt.plot(input_sizes_worst, worst_case_times, label='Worst Case')
-    plt.plot(input_sizes_average, average_case_times, label='Average Case')
+    plt.plot(input_sizes_worst, worst_case_times, label='Average Case')
+    plt.plot(input_sizes_average, average_case_times, label='Worst Case')
     plt.xlabel('Input Size')
     plt.ylabel('Running Time')
     plt.title('Job Scheduling - Greedy')
