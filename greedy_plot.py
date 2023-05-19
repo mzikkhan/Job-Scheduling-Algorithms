@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
         # Start timer
         start_time = timeit.default_timer()
-        # Run brute force algorithm
+        # Run greedy algorithm
         max_profit = job_schedulig_greedy(jobs)
         # End timer
         end_time = timeit.default_timer()
