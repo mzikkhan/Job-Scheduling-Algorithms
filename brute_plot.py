@@ -3,10 +3,14 @@ import timeit
 import random
 import itertools
 
+# To generate random value for input
+
 
 def generate_random_values():
     value = random.randint(1, 20)
     return value
+
+# Brute Force Algorithm to calculate profit
 
 
 def calculate_profit(schedule, l):
@@ -17,13 +21,13 @@ def calculate_profit(schedule, l):
 
     for job in schedule:
         profit, deadline = jobs[job]
-        # Check if deadline has already been checked
-        # If not, add it to schedule and collect profit
+        # Check if deadline spot is empty
+        # If so, add it to schedule and collect profit
         if deadline not in current_time:
             max_profit += profit
             best_schedule[deadline-1] = job
             current_time.append(deadline)
-        # If yes, keep going back in the schedule to fit the job and collect profit
+        # If not, keep going back in the schedule to fit the job and collect profit
         else:
             deadline2 = deadline - 1
             while deadline2 != 0:
@@ -35,6 +39,8 @@ def calculate_profit(schedule, l):
                     current_time.append(deadline2)
                     break
     return max_profit
+
+# To Measure Execution Time
 
 
 def measure_execution_time(jobs):
@@ -48,7 +54,7 @@ def measure_execution_time(jobs):
     # Store max value of deadline and assign size of schedule to this
     size = max(deadline)
 
-    # Generate all permutations of the job names
+    # Generate all permutations of the jobs
     job_names = list(jobs.keys())
     permutations = list(itertools.permutations(job_names, size))
     max_profit = 0
@@ -63,25 +69,33 @@ def measure_execution_time(jobs):
             best_schedule = schedule
 
 
-input_sizes = []
-execution_times = []
+if __name__ == "__main__":
+    input_sizes = []
+    execution_times = []
 
-input_range = range(1, 100)
+    # Declaring input range
+    input_range = range(1, 100)
 
-for size in input_range:
-    jobs = {f'j{i+1}': [generate_random_values(), generate_random_values()]
-            for i in range(size)}
+    # Create input array of jobs
+    for size in input_range:
+        jobs = {f'j{i+1}': [generate_random_values(), generate_random_values()]
+                for i in range(size)}
 
-    start_time = timeit.default_timer()
-    max_profit = measure_execution_time(jobs)
-    end_time = timeit.default_timer()
-    execution_time = end_time - start_time
+        # Start timer
+        start_time = timeit.default_timer()
+        # Run brute force algorithm
+        max_profit = measure_execution_time(jobs)
+        # End timer
+        end_time = timeit.default_timer()
+        # Calculate execution time
+        execution_time = end_time - start_time
 
-    input_sizes.append(size)
-    execution_times.append(execution_time)
+        input_sizes.append(size)
+        execution_times.append(execution_time)
 
-fig = go.Figure(data=go.Scatter(
-    x=input_sizes, y=execution_times, mode='lines'))
-fig.update_layout(title='Job Scheduling - Brute Force Algorithm',
-                  xaxis_title='Input Size', yaxis_title='Execution Time (s)')
-fig.show()
+    # Plot our graph
+    fig = go.Figure(data=go.Scatter(
+        x=input_sizes, y=execution_times, mode='lines'))
+    fig.update_layout(title='Job Scheduling - Brute Force Algorithm',
+                      xaxis_title='Input Size', yaxis_title='Execution Time (s)')
+    fig.show()
