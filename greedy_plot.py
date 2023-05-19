@@ -9,6 +9,7 @@ def generate_random_values():
     value = random.randint(1, 20)
     return value
 
+
 # Greedy Algorithm to calculate profit
 
 
