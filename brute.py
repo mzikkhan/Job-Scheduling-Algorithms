@@ -140,6 +140,7 @@ def analyze_performance_average(jobs_average_list, input_range):
     return input_sizes, average_case_times
 
 
+# Main Function
 if __name__ == "__main__":
 
     # Declaring input range

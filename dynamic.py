@@ -136,10 +136,11 @@ def analyze_performance_average(jobs_average_list, input_range):
     return input_sizes, average_case_times
 
 
+# Main Function
 if __name__ == "__main__":
 
     # Declaring input range
-    input_range = range(1, 10000, 1000)
+    input_range = range(1, 15)
 
     # Create input array of jobs
     jobs_best_list = []
